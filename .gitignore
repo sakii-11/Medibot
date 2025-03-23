@@ -1,0 +1,10 @@
+# Ignore environment variable files
+.env
+
+# Ignore virtual environment
+venv/
+venv/*
+
+# Ignore vector store files
+vectorstore/
+vectorstore/*
