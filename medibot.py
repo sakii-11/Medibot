@@ -1,13 +1,18 @@
 import os
+import asyncio
 import streamlit as st
 from dotenv import load_dotenv, find_dotenv
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_huggingface import HuggingFaceEndpoint
 
 load_dotenv(find_dotenv())
+try:
+    asyncio.get_running_loop()
+except RuntimeError:
+    asyncio.set_event_loop(asyncio.new_event_loop())
 
 DB_FAISS_PATH="vectorstore/db_faiss"
 @st.cache_resource
@@ -34,8 +39,16 @@ def load_llm(huggingface_repo_id, HF_TOKEN):
 
 
 def main():
-    st.title("Ask Chatbot!")
-
+    st.title("🤖 Ask Medibot!")
+    st.sidebar.write("📖 **Trained on:** *The GALE ENCYCLOPEDIA of MEDICINE SECOND EDITION*")
+    st.sidebar.write("""
+    🤖 **About this chatbot:**  
+    This chatbot uses **Retrieval-Augmented Generation (RAG)** to provide accurate medical information. It retrieves relevant knowledge from trusted sources and generates human-like responses, enhancing accuracy and reliability in healthcare conversations.
+    
+    
+    🩺 **How it works:**  
+    Unlike traditional chatbots that rely solely on predefined responses, this model dynamically fetches the most relevant medical information before generating a response. By combining **retrieval-based search** with **generative AI**, it ensures that users receive **fact-based, up-to-date, and context-aware** answers to their medical queries.
+    """)
     if 'messages' not in st.session_state:
         st.session_state.messages = []
 
@@ -79,8 +92,7 @@ def main():
 
             result=response["result"]
             source_documents=response["source_documents"]
-            result_to_show=result+"\nSource Docs:\n"+str(source_documents)
-            source_documents_to_show = "\n Source Documents: \n" + str(source_documents) 
+            result_to_show=result+"\n\n**Source Docs:**\n\n"+"\n"+str(source_documents)
             #response="Hi, I am MediBot!"
             st.chat_message('assistant').markdown(result_to_show)
             st.session_state.messages.append({'role':'assistant', 'content': result_to_show})
