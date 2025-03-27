@@ -5,6 +5,3 @@
 venv/
 venv/*
 
-# Ignore vector store files
-vectorstore/
-vectorstore/*

@@ -47,6 +47,7 @@ embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-Mi
 db=FAISS.load_local(DB_FAISS_PATH, embedding_model, allow_dangerous_deserialization=True) #it is true since we trust the source (pdf) completely
 
 #Create QA Chain 
+# here k defines the number of nearest neighbours to check for embeddings 
 qa_chain = RetrievalQA.from_chain_type(
   llm= load_llm(huggingface_repo_id),
   chain_type="stuff",
