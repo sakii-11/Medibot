@@ -56,6 +56,8 @@ qa_chain = RetrievalQA.from_chain_type(
   chain_type_kwargs={'prompt':set_custom_prompt(CUSTOM_PROMPT_TEMPLATE)}
 )
 
+
+
 #Invoke with a single query
 user_query = input("Write Query Here: ")
 response=qa_chain.invoke({'query':user_query})

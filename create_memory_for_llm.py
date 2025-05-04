@@ -10,7 +10,8 @@ load_dotenv(find_dotenv())
 DATA_PATH ="data/" 
 def load_pdf_files(data):
   loader = DirectoryLoader(data, glob='*.pdf', loader_cls = PyPDFLoader)
-  documents = loader.load()
+  for i in data:
+   documents += loader.load()
   return documents 
 
 documents= load_pdf_files(DATA_PATH)

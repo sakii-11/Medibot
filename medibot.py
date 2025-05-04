@@ -96,6 +96,7 @@ def main():
             #response="Hi, I am MediBot!"
             st.chat_message('assistant').markdown(result_to_show)
             st.session_state.messages.append({'role':'assistant', 'content': result_to_show})
+        
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
